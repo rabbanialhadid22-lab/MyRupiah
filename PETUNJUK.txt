@@ -1,0 +1,7 @@
+MyRupiah - cara membuat file APK (tanpa coding)
+1. Buat akun gratis di github.com
+2. Buat repository baru (tombol "New"), nama bebas, pilih Public, centang "Add a README"
+3. Di repository: Add file > Upload files. Tarik SEMUA isi folder ini (www, assets, .github, package.json, capacitor.config.json)
+4. Tekan "Commit changes"
+5. Buka tab "Actions", tunggu proses selesai (+/- 5-8 menit, tanda centang hijau)
+6. Klik proses itu, di bagian "Artifacts" unduh "MyRupiah-APK", ekstrak, kirim app-debug.apk ke HP, lalu pasang.
