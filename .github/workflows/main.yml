@@ -19,14 +19,19 @@ jobs:
       - name: Siapkan file
         run: |
           mkdir -p www assets
-          f=$(find . -name index.html -not -path "./node_modules/*" -not -path "./android/*" -not -path "./www/*" | head -1)
-          if [ ! -f www/index.html ] && [ -n "$f" ]; then cp "$f" www/index.html; fi
+          f=$(find . -name myrupiah-app.html -not -path "./node_modules/*" | head -1)
+          test -n "$f" || { echo "myrupiah-app.html tidak ditemukan"; exit 1; }
+          cp "$f" www/index.html
           for n in icon-only icon-background icon-foreground; do
-            p=$(find . -name "$n.png" -not -path "./node_modules/*" -not -path "./android/*" | head -1)
-            if [ -n "$p" ] && [ ! -f assets/$n.png ]; then cp "$p" assets/$n.png; fi
+            p=$(find . -name "mr-$n.png" -not -path "./node_modules/*" | head -1)
+            test -n "$p" || { echo "mr-$n.png tidak ditemukan"; exit 1; }
+            cp "$p" assets/$n.png
           done
           ls -R www assets
       - run: npx cap add android
+      - name: Izin kamera
+        run: |
+          sed -i 's#</manifest>#    <uses-permission android:name="android.permission.CAMERA" />\n    <uses-feature android:name="android.hardware.camera" android:required="false" />\n</manifest>#' android/app/src/main/AndroidManifest.xml
       - run: npx capacitor-assets generate --android
       - run: npx cap sync android
       - run: cd android && chmod +x gradlew && ./gradlew assembleDebug
