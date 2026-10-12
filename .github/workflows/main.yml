@@ -19,9 +19,11 @@ jobs:
       - name: Siapkan file
         run: |
           mkdir -p www assets
-          f=$(find . -name myrupiah-app.html -not -path "./node_modules/*" | head -1)
-          test -n "$f" || { echo "myrupiah-app.html tidak ditemukan"; exit 1; }
+          f=$(find . -name "myrupiah-app*.html" -not -path "./node_modules/*" | sort -V | tail -1)
+          test -n "$f" || { echo "file myrupiah-app tidak ditemukan"; exit 1; }
+          echo "Memakai: $f"
           cp "$f" www/index.html
+          grep -c "t-hutang" www/index.html
           for n in icon-only icon-background icon-foreground; do
             p=$(find . -name "mr-$n.png" -not -path "./node_modules/*" | head -1)
             test -n "$p" || { echo "mr-$n.png tidak ditemukan"; exit 1; }
